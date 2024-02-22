@@ -1,0 +1,45 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.listPersonVisits = exports.listActivePersons = void 0;
+const index_1 = __importDefault(require("./index"));
+const executeGetsQuery = (sqlStmt, values) => __awaiter(void 0, void 0, void 0, function* () {
+    const res = yield index_1.default
+        .query({
+        sql: sqlStmt,
+        timeout: 5000,
+        values: values,
+    })
+        .catch((error) => {
+        console.log(error);
+        return error;
+    });
+    yield index_1.default.end();
+    return res;
+});
+const listActivePersons = () => __awaiter(void 0, void 0, void 0, function* () {
+    return executeGetsQuery(`SELECT *,
+  DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
+  FROM persons 
+  WHERE persons.active = 1
+  ORDER BY date ASC`);
+});
+exports.listActivePersons = listActivePersons;
+const listPersonVisits = (person_id) => __awaiter(void 0, void 0, void 0, function* () {
+    return executeGetsQuery(`SELECT *,
+    DATE_FORMAT(visits.date, '%Y-%m-%d') AS visit_date 
+    FROM visits WHERE person_id = ? ORDER BY date ASC`, [person_id]);
+});
+exports.listPersonVisits = listPersonVisits;
+//# sourceMappingURL=modelsGets.js.map

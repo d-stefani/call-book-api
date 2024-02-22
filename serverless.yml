@@ -1,0 +1,70 @@
+service: cb-api
+useDotenv: true
+configValidationMode: off
+
+provider:
+  name: aws
+  custom:
+    accountId: 148025418053
+  runtime: nodejs16.x
+  timeout: 30
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda: '*'
+      Resource:
+        - '*'
+
+  stage: ${opt:stage}
+  region: us-east-1
+  role: arn:aws:iam::148025418053:role/dstefani-territory-status-role
+
+  vpc:
+    securityGroupIds: ${file(config/vpc-config.js):securityGroups}
+    subnetIds: ${file(config/vpc-config.js):subnets}
+
+functions:
+  app:
+    handler: dist/index.handler
+    events:
+      - http:
+          path: /api/auth
+          method: GET
+          cors: true
+      - http:
+          path: /api/login
+          method: POST
+          cors: true
+      - http:
+          path: /api/person
+          method: POST
+          cors: true
+      - http:
+          path: /api/visit
+          method: POST
+          cors: true
+      - http:
+          path: /api/persons
+          method: GET
+          cors: true
+      - http:
+          path: /api/visits/{person_id}
+          method: GET
+          cors: true
+      - http:
+          path: /api/person
+          method: PUT
+          cors: true
+      - http:
+          path: /api/pactive
+          method: PUT
+          cors: true
+      - http:
+          path: /api/visit
+          method: PUT
+          cors: true
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-express
+  - serverless-offline
