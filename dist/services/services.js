@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putVisitSrv = exports.putActivePersonSrv = exports.putPersonSrv = exports.getVisitsSrv = exports.getPersonsSrv = exports.postVisitSrv = exports.postPersonSrv = exports.postLoginSrv = void 0;
+exports.putVisitSrv = exports.putActivePersonSrv = exports.putPersonSrv = exports.getVisitsSrv = exports.getPersonSrv = exports.getPersonsSrv = exports.postVisitSrv = exports.postPersonSrv = exports.postLoginSrv = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const modelsPosts = __importStar(require("../models/modelsPosts"));
 const modelsGets = __importStar(require("../models/modelsGets"));
@@ -59,6 +59,10 @@ const getPersonsSrv = () => __awaiter(void 0, void 0, void 0, function* () {
     return yield modelsGets.listActivePersons();
 });
 exports.getPersonsSrv = getPersonsSrv;
+const getPersonSrv = (person_id) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield modelsGets.getPerson(person_id);
+});
+exports.getPersonSrv = getPersonSrv;
 const getVisitsSrv = (person_id) => __awaiter(void 0, void 0, void 0, function* () {
     return yield modelsGets.listPersonVisits(person_id);
 });

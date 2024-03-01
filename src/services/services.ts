@@ -25,6 +25,10 @@ export const getPersonsSrv = async (): Promise<Person> => {
   return await modelsGets.listActivePersons();
 };
 
+export const getPersonSrv = async (person_id: number): Promise<Person> => {
+  return await modelsGets.getPerson(person_id);
+};
+
 export const getVisitsSrv = async (person_id: number): Promise<Visit> => {
   return await modelsGets.listPersonVisits(person_id);
 };

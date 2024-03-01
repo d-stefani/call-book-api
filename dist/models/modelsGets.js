@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.listPersonVisits = exports.listActivePersons = void 0;
+exports.listPersonVisits = exports.getPerson = exports.listActivePersons = void 0;
 const index_1 = __importDefault(require("./index"));
 const executeGetsQuery = (sqlStmt, values) => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield index_1.default
@@ -36,6 +36,13 @@ const listActivePersons = () => __awaiter(void 0, void 0, void 0, function* () {
   ORDER BY date ASC`);
 });
 exports.listActivePersons = listActivePersons;
+const getPerson = (person_id) => __awaiter(void 0, void 0, void 0, function* () {
+    return executeGetsQuery(`SELECT *,
+    DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
+    FROM persons 
+    WHERE persons.id = 1`, [person_id]);
+});
+exports.getPerson = getPerson;
 const listPersonVisits = (person_id) => __awaiter(void 0, void 0, void 0, function* () {
     return executeGetsQuery(`SELECT *,
     DATE_FORMAT(visits.date, '%Y-%m-%d') AS visit_date 

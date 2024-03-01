@@ -49,6 +49,10 @@ functions:
           method: GET
           cors: true
       - http:
+          path: /api/person/{person_id}
+          method: GET
+          cors: true
+      - http:
           path: /api/visits/{person_id}
           method: GET
           cors: true

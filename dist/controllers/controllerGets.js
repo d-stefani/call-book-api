@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getVisits = exports.getPersons = void 0;
+exports.getVisits = exports.getPerson = exports.getPersons = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const services = __importStar(require("../services/services"));
 aws_sdk_1.default.config.logger = console;
@@ -54,6 +54,8 @@ const handleRequest = (serviceFn, successMessage, failMessage, req, res, reqPara
 };
 const getPersons = (req, res) => handleRequest(services.getPersonsSrv, 'Get Persons success', 'Get Persons failed', req, res);
 exports.getPersons = getPersons;
+const getPerson = (req, res) => handleRequest(services.getPersonSrv, 'Get Person success', 'Get Person failed', req, res, 'person_id');
+exports.getPerson = getPerson;
 const getVisits = (req, res) => handleRequest(services.getVisitsSrv, 'Get Persons visits success', 'Get Persons visits failed', req, res, 'person_id');
 exports.getVisits = getVisits;
 //# sourceMappingURL=controllerGets.js.map

@@ -28,6 +28,15 @@ export const listActivePersons = async (): Promise<Person> =>
   WHERE persons.active = 1
   ORDER BY date ASC`);
 
+export const getPerson = async (person_id: number): Promise<Person> =>
+  executeGetsQuery<Person>(
+    `SELECT *,
+    DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
+    FROM persons 
+    WHERE persons.id = 1`,
+    [person_id],
+  );
+
 export const listPersonVisits = async (person_id: number): Promise<Visit> =>
   executeGetsQuery<Visit>(
     `SELECT *,

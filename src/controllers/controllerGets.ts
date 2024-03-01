@@ -43,6 +43,16 @@ export const getPersons = (req: Request, res: Response): void =>
     res,
   );
 
+export const getPerson = (req: Request, res: Response): void =>
+  handleRequest(
+    services.getPersonSrv,
+    'Get Person success',
+    'Get Person failed',
+    req,
+    res,
+    'person_id',
+  );
+
 export const getVisits = (req: Request, res: Response): void =>
   handleRequest(
     services.getVisitsSrv,
