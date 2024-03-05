@@ -37,6 +37,10 @@ functions:
           method: POST
           cors: true
       - http:
+          path: /api/search
+          method: POST
+          cors: true
+      - http:
           path: /api/person
           method: POST
           cors: true

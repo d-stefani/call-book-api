@@ -84,7 +84,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cb-api/production/1708730049294-2024-02-23T23:14:09.294Z/cb-api.zip"
+          "S3Key": "serverless/cb-api/production/1709312586930-2024-03-01T17:03:06.930Z/cb-api.zip"
         },
         "Handler": "dist/index.handler",
         "Runtime": "nodejs16.x",
@@ -117,14 +117,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionxcqdkKaujME6DtsNJ2MBBSF5vH3kQkcsaFIJTwqmlM": {
+    "AppLambdaVersionbJnmXaWx4heGADiHY0n4Bo0hq7fkGmwCLz2E0XtOGk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "f9UbEfSaikn1pFB1cncbPNRQB9nKbdErgS9ZTevTaCs="
+        "CodeSha256": "dO6H0wxkdCqxEjJEQSOwcTLK2+i2FTMKL9HT9FuMLrY="
       }
     },
     "ApiGatewayRestApi": {
@@ -185,6 +185,18 @@
           "Ref": "ApiGatewayResourceApi"
         },
         "PathPart": "person",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceApiPersonPersonidVar": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceApiPerson"
+        },
+        "PathPart": "{person_id}",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -469,6 +481,51 @@
         },
         "ResourceId": {
           "Ref": "ApiGatewayResourceApiPersons"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodApiPersonPersonidVarOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "ContentHandling": "CONVERT_TO_TEXT",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceApiPersonPersonidVar"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -795,6 +852,52 @@
         "AppLambdaPermissionApiGateway"
       ]
     },
+    "ApiGatewayMethodApiPersonPersonidVarGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceApiPersonPersonidVar"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "AppLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      },
+      "DependsOn": [
+        "AppLambdaPermissionApiGateway"
+      ]
+    },
     "ApiGatewayMethodApiVisitsPersonidVarGet": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -979,7 +1082,7 @@
         "AppLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1708730040219": {
+    "ApiGatewayDeployment1709312576878": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -993,6 +1096,7 @@
         "ApiGatewayMethodApiPersonOptions",
         "ApiGatewayMethodApiVisitOptions",
         "ApiGatewayMethodApiPersonsOptions",
+        "ApiGatewayMethodApiPersonPersonidVarOptions",
         "ApiGatewayMethodApiVisitsPersonidVarOptions",
         "ApiGatewayMethodApiPactiveOptions",
         "ApiGatewayMethodApiAuthGet",
@@ -1000,6 +1104,7 @@
         "ApiGatewayMethodApiPersonPost",
         "ApiGatewayMethodApiVisitPost",
         "ApiGatewayMethodApiPersonsGet",
+        "ApiGatewayMethodApiPersonPersonidVarGet",
         "ApiGatewayMethodApiVisitsPersonidVarGet",
         "ApiGatewayMethodApiPersonPut",
         "ApiGatewayMethodApiPactivePut",
@@ -1056,7 +1161,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionxcqdkKaujME6DtsNJ2MBBSF5vH3kQkcsaFIJTwqmlM"
+        "Ref": "AppLambdaVersionbJnmXaWx4heGADiHY0n4Bo0hq7fkGmwCLz2E0XtOGk"
       },
       "Export": {
         "Name": "sls-cb-api-production-AppLambdaFunctionQualifiedArn"

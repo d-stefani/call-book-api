@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 
-import { Login, Person, Visit, Active } from '../utils/types';
+import { Login, Person, Visit, Active, PersonSearch } from '../utils/types';
 import * as modelsPosts from '../models/modelsPosts';
 import * as modelsGets from '../models/modelsGets';
 import * as modelsPuts from '../models/modelsPuts';
@@ -14,6 +14,12 @@ export const postLoginSrv = async (data: Login): Promise<Login> => {
 export const postPersonSrv = async (data: Person): Promise<Person> => {
   await modelsPosts.insertPersonsSql(data);
   return data;
+};
+
+export const postSearchSrv = async (
+  data: PersonSearch,
+): Promise<number | PersonSearch> => {
+  return await modelsPosts.searchPersonSql(data);
 };
 
 export const postVisitSrv = async (data: Visit): Promise<Visit> => {

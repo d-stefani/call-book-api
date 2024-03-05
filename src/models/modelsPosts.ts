@@ -1,5 +1,5 @@
 import mysql from './index';
-import { Result, Login, Person, Visit } from '../utils/types';
+import { Result, Login, Person, Visit, PersonSearch } from '../utils/types';
 
 const executePostsQuery = async <T>(
   sql: string,
@@ -43,4 +43,21 @@ export const insertVisitSql = async (data: Visit): Promise<number> => {
     'Error inserting visit:',
   );
   return result.insertId;
+};
+
+export const searchPersonSql = async (
+  data: PersonSearch,
+): Promise<boolean | Person> => {
+  const searchResult = await executePostsQuery<Person>(
+    `SELECT *, DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date FROM persons 
+    WHERE name LIKE CONCAT('%', ?, '%') 
+    OR address LIKE CONCAT('%', ?, '%')
+    OR territory LIKE CONCAT('%', ?, '%')`,
+    [data.search, data.search, data.search],
+    'Error searching person:',
+  );
+  if (Object.keys(searchResult).length === 0) {
+    return false;
+  }
+  return searchResult;
 };

@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putVisitSrv = exports.putActivePersonSrv = exports.putPersonSrv = exports.getVisitsSrv = exports.getPersonSrv = exports.getPersonsSrv = exports.postVisitSrv = exports.postPersonSrv = exports.postLoginSrv = void 0;
+exports.putVisitSrv = exports.putActivePersonSrv = exports.putPersonSrv = exports.getVisitsSrv = exports.getPersonSrv = exports.getPersonsSrv = exports.postVisitSrv = exports.postSearchSrv = exports.postPersonSrv = exports.postLoginSrv = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const modelsPosts = __importStar(require("../models/modelsPosts"));
 const modelsGets = __importStar(require("../models/modelsGets"));
@@ -50,6 +50,10 @@ const postPersonSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {
     return data;
 });
 exports.postPersonSrv = postPersonSrv;
+const postSearchSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield modelsPosts.searchPersonSql(data);
+});
+exports.postSearchSrv = postSearchSrv;
 const postVisitSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {
     yield modelsPosts.insertVisitSql(data);
     return data;

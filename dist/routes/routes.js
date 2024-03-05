@@ -8,6 +8,7 @@ const routes = (() => {
     router.post('/api/login', controllerPosts.postLogin);
     router.post('/api/person', controllerPosts.postPersons);
     router.post('/api/visit', controllerPosts.postVisits);
+    router.post('/api/search', controllerPosts.postSearch);
     router.get('/api/persons', controllerGets.getPersons);
     router.get('/api/person/:person_id', controllerGets.getPerson);
     router.get('/api/visits/:person_id', controllerGets.getVisits);

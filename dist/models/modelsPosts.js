@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertVisitSql = exports.insertPersonsSql = exports.loginSql = void 0;
+exports.searchPersonSql = exports.insertVisitSql = exports.insertPersonsSql = exports.loginSql = void 0;
 const index_1 = __importDefault(require("./index"));
 const executePostsQuery = (sql, values, errorMsg) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -43,4 +43,15 @@ const insertVisitSql = (data) => __awaiter(void 0, void 0, void 0, function* () 
     return result.insertId;
 });
 exports.insertVisitSql = insertVisitSql;
+const searchPersonSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const searchResult = yield executePostsQuery(`SELECT *, DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date FROM persons 
+    WHERE name LIKE CONCAT('%', ?, '%') 
+    OR address LIKE CONCAT('%', ?, '%')
+    OR territory LIKE CONCAT('%', ?, '%')`, [data.search, data.search, data.search], 'Error searching person:');
+    if (Object.keys(searchResult).length === 0) {
+        return false;
+    }
+    return searchResult;
+});
+exports.searchPersonSql = searchPersonSql;
 //# sourceMappingURL=modelsPosts.js.map

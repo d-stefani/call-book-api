@@ -60,6 +60,10 @@ export interface Person {
   created: string;
 }
 
+export interface PersonSearch extends Person {
+  search?: string;
+}
+
 export interface Active {
   id: number;
   active: number;

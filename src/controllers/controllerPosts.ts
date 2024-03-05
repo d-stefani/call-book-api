@@ -32,6 +32,16 @@ const handlePostRequest = (
     });
 };
 
+export const postSearch = (req: Request, res: Response): void =>
+  handlePostRequest(
+    services.postSearchSrv,
+    'Search success',
+    'No records found',
+    req,
+    res,
+    'data',
+  );
+
 export const postLogin = (req: Request, res: Response): void =>
   handlePostRequest(
     services.postLoginSrv,

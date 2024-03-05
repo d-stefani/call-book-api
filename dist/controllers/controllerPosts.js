@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postVisits = exports.postPersons = exports.postLogin = void 0;
+exports.postVisits = exports.postPersons = exports.postLogin = exports.postSearch = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const services = __importStar(require("../services/services"));
 aws_sdk_1.default.config.logger = console;
@@ -50,6 +50,8 @@ const handlePostRequest = (serviceFn, successMessage, failMessage, req, res, suc
         });
     });
 };
+const postSearch = (req, res) => handlePostRequest(services.postSearchSrv, 'Search success', 'No records found', req, res, 'data');
+exports.postSearch = postSearch;
 const postLogin = (req, res) => handlePostRequest(services.postLoginSrv, 'Login success', 'User not found', req, res, 'data');
 exports.postLogin = postLogin;
 const postPersons = (req, res) => handlePostRequest(services.postPersonSrv, 'Add Person success', 'New Person insert failed', req, res, 'persons');
