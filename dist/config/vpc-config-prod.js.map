@@ -1,1 +1,0 @@
-{"version":3,"file":"vpc-config-prod.js","sourceRoot":"","sources":["../../src/config/vpc-config-prod.js"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,CAAC,OAAO,GAAG,GAAG,EAAE,CAAC;IAC7B,iBAAiB;IACjB,iBAAiB;CAClB,CAAC;AAEF,MAAM,CAAC,OAAO,CAAC,cAAc,GAAG,GAAG,EAAE,CAAC,CAAC,aAAa,EAAE,aAAa,CAAC,CAAC"}
