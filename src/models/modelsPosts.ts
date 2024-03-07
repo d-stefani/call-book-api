@@ -47,7 +47,7 @@ export const insertVisitSql = async (data: Visit): Promise<number> => {
 
 export const searchPersonSql = async (
   data: PersonSearch,
-): Promise<boolean | Person> => {
+): Promise<number | Person> => {
   const searchResult = await executePostsQuery<Person>(
     `SELECT *, DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date FROM persons 
     WHERE name LIKE CONCAT('%', ?, '%') 
@@ -57,7 +57,7 @@ export const searchPersonSql = async (
     'Error searching person:',
   );
   if (Object.keys(searchResult).length === 0) {
-    return false;
+    return 0;
   }
   return searchResult;
 };

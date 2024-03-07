@@ -49,7 +49,7 @@ const searchPersonSql = (data) => __awaiter(void 0, void 0, void 0, function* ()
     OR address LIKE CONCAT('%', ?, '%')
     OR territory LIKE CONCAT('%', ?, '%')`, [data.search, data.search, data.search], 'Error searching person:');
     if (Object.keys(searchResult).length === 0) {
-        return false;
+        return 0;
     }
     return searchResult;
 });

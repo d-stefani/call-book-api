@@ -84,7 +84,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/cb-api/production/1709312586930-2024-03-01T17:03:06.930Z/cb-api.zip"
+          "S3Key": "serverless/cb-api/production/1709680791667-2024-03-05T23:19:51.667Z/cb-api.zip"
         },
         "Handler": "dist/index.handler",
         "Runtime": "nodejs16.x",
@@ -117,14 +117,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionbJnmXaWx4heGADiHY0n4Bo0hq7fkGmwCLz2E0XtOGk": {
+    "AppLambdaVersionCSRboq3hYJ2HEeOIMCXa5OPj24D1DVdRlw5qIVNLEQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "dO6H0wxkdCqxEjJEQSOwcTLK2+i2FTMKL9HT9FuMLrY="
+        "CodeSha256": "bCBYBfaxJm54VNfUEcrjvyMNm13L/nBa4scdqSAWGiA="
       }
     },
     "ApiGatewayRestApi": {
@@ -173,6 +173,18 @@
           "Ref": "ApiGatewayResourceApi"
         },
         "PathPart": "login",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceApiSearch": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceApi"
+        },
+        "PathPart": "search",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -346,6 +358,51 @@
         },
         "ResourceId": {
           "Ref": "ApiGatewayResourceApiLogin"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodApiSearchOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "ContentHandling": "CONVERT_TO_TEXT",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceApiSearch"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -675,6 +732,52 @@
         "RequestParameters": {},
         "ResourceId": {
           "Ref": "ApiGatewayResourceApiLogin"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "AppLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      },
+      "DependsOn": [
+        "AppLambdaPermissionApiGateway"
+      ]
+    },
+    "ApiGatewayMethodApiSearchPost": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceApiSearch"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -1082,7 +1185,7 @@
         "AppLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1709312576878": {
+    "ApiGatewayDeployment1709680781075": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1093,6 +1196,7 @@
       "DependsOn": [
         "ApiGatewayMethodApiAuthOptions",
         "ApiGatewayMethodApiLoginOptions",
+        "ApiGatewayMethodApiSearchOptions",
         "ApiGatewayMethodApiPersonOptions",
         "ApiGatewayMethodApiVisitOptions",
         "ApiGatewayMethodApiPersonsOptions",
@@ -1101,6 +1205,7 @@
         "ApiGatewayMethodApiPactiveOptions",
         "ApiGatewayMethodApiAuthGet",
         "ApiGatewayMethodApiLoginPost",
+        "ApiGatewayMethodApiSearchPost",
         "ApiGatewayMethodApiPersonPost",
         "ApiGatewayMethodApiVisitPost",
         "ApiGatewayMethodApiPersonsGet",
@@ -1161,7 +1266,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionbJnmXaWx4heGADiHY0n4Bo0hq7fkGmwCLz2E0XtOGk"
+        "Ref": "AppLambdaVersionCSRboq3hYJ2HEeOIMCXa5OPj24D1DVdRlw5qIVNLEQ"
       },
       "Export": {
         "Name": "sls-cb-api-production-AppLambdaFunctionQualifiedArn"
