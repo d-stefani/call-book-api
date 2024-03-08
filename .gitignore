@@ -2,5 +2,6 @@ node_modules/
 storage/
 .git
 .env*
+config/
 dist/config/
 src/config/

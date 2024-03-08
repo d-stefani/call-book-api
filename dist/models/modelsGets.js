@@ -40,7 +40,7 @@ const getPerson = (person_id) => __awaiter(void 0, void 0, void 0, function* () 
     return executeGetsQuery(`SELECT *,
     DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
     FROM persons 
-    WHERE persons.id = 1`, [person_id]);
+    WHERE persons.id = ?`, [person_id]);
 });
 exports.getPerson = getPerson;
 const listPersonVisits = (person_id) => __awaiter(void 0, void 0, void 0, function* () {

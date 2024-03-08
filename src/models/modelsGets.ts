@@ -33,7 +33,7 @@ export const getPerson = async (person_id: number): Promise<Person> =>
     `SELECT *,
     DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
     FROM persons 
-    WHERE persons.id = 1`,
+    WHERE persons.id = ?`,
     [person_id],
   );
 
