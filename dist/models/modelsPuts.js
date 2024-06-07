@@ -31,21 +31,19 @@ const updatePersonSql = (data) => executePutQuery(`UPDATE persons
       address = ?,
       phone = ?,
       email = ?,
-      date = ?,
-      time = ?,
       territory = ?,
       environment = ?,
-      notes = ?
+      notes = ?,
+      active = ?
     WHERE id = ?`, [
     data.name,
     data.address,
     data.phone,
     data.email,
-    data.date,
-    data.time,
     data.territory,
     data.environment,
     data.notes,
+    data.active,
     data.id,
 ], 'Error updating Person:');
 exports.updatePersonSql = updatePersonSql;
