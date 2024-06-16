@@ -14,22 +14,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.searchPersonSql = exports.insertVisitSql = exports.insertPersonsSql = exports.loginSql = void 0;
 const index_1 = __importDefault(require("./index"));
-const executePostsQuery = (sql, values, errorMsg) => __awaiter(void 0, void 0, void 0, function* () {
+const executePostsQuery = (sqlStmt, values, errorMsg) => __awaiter(void 0, void 0, void 0, function* () {
+    const connection = yield index_1.default;
     try {
-        const res = yield index_1.default.query({ sql, timeout: 5000, values });
-        const result = res;
-        return result;
-        console.log('result', result);
+        const res = connection.promise().query({
+            sql: sqlStmt,
+            timeout: 5000,
+            values: values,
+        });
+        const result = (yield res);
+        console.log('Result:', result[0]);
+        return result[0];
     }
     catch (error) {
         console.error(errorMsg, error);
         throw error;
     }
-    finally {
-        index_1.default.end();
-    }
 });
 const loginSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('DATA:', data);
     return yield executePostsQuery(`SELECT id, name FROM users WHERE email = ? AND password = ?`, [data.email, data.password], 'LOGIN SQL ERROR');
 });
 exports.loginSql = loginSql;

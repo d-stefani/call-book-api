@@ -45,7 +45,7 @@ enum Environment {
   null,
 }
 
-export interface Person {
+export interface Person extends Data {
   id?: number;
   name: string | null;
   address: string;

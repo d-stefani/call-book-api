@@ -15,15 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateVisitSql = exports.updateActivePersonSql = exports.updatePersonSql = void 0;
 const index_1 = __importDefault(require("./index"));
 const executePutQuery = (sqlStmt, values, errorMsg) => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield index_1.default
-        .query({ sql: sqlStmt, timeout: 500000, values })
-        .catch((error) => {
-        index_1.default.end();
+    const connection = yield index_1.default;
+    try {
+        const results = connection.promise().query(sqlStmt, values);
+        const result = (yield results);
+        return result[0].affectedRows;
+    }
+    catch (error) {
         console.error(errorMsg, error);
-        return error;
-    });
-    const result = res;
-    return result.affectedRows;
+        throw error;
+    }
 });
 const updatePersonSql = (data) => executePutQuery(`UPDATE persons
     SET

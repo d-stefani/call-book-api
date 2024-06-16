@@ -1,6 +1,13 @@
 import AWS from 'aws-sdk';
 
-import { Login, Person, Visit, Active, PersonSearch } from '../utils/types';
+import {
+  Login,
+  Person,
+  Visit,
+  Active,
+  PersonSearch,
+  Data,
+} from '../utils/types';
 import * as modelsPosts from '../models/modelsPosts';
 import * as modelsGets from '../models/modelsGets';
 import * as modelsPuts from '../models/modelsPuts';
@@ -40,7 +47,11 @@ export const getVisitsSrv = async (person_id: number): Promise<Visit> => {
 };
 
 export const putPersonSrv = async (data: Person): Promise<number> => {
-  return await modelsPuts.updatePersonSql(data);
+  console.log('DATA:', data.data);
+  const dataSend: any = data.data;
+  const affected: number = await modelsPuts.updatePersonSql(dataSend);
+  console.log('AFFECTED:', affected);
+  return affected;
 };
 
 export const putActivePersonSrv = async (data: Active): Promise<number> => {

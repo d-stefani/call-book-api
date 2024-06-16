@@ -5,8 +5,8 @@ configValidationMode: off
 provider:
   name: aws
   custom:
-    accountId: 148025418053
-  runtime: nodejs16.x
+    accountId: 767398030559
+  runtime: nodejs18.x
   timeout: 30
 
   iamRoleStatements:
@@ -18,11 +18,7 @@ provider:
 
   stage: ${opt:stage}
   region: us-east-1
-  role: arn:aws:iam::148025418053:role/dstefani-territory-status-role
-
-  vpc:
-    securityGroupIds: ${file(config/vpc-config.js):securityGroups}
-    subnetIds: ${file(config/vpc-config.js):subnets}
+  role: arn:aws:iam::767398030559:role/lambdaDevRole
 
 functions:
   app:

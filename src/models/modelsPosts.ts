@@ -1,25 +1,30 @@
-import mysql from './index';
+import SSHDBConnection from './index';
 import { Result, Login, Person, Visit, PersonSearch } from '../utils/types';
 
 const executePostsQuery = async <T>(
-  sql: string,
+  sqlStmt: string,
   values: any,
   errorMsg: string,
 ): Promise<T> => {
+  const connection = await SSHDBConnection;
+
   try {
-    const res = await mysql.query({ sql, timeout: 5000, values });
-    const result: T = res as T;
-    return result;
-    console.log('result', result);
+    const res = connection.promise().query({
+      sql: sqlStmt,
+      timeout: 5000,
+      values: values,
+    });
+    const result: any = (await res) as any;
+    console.log('Result:', result[0]);
+    return result[0];
   } catch (error) {
     console.error(errorMsg, error);
     throw error;
-  } finally {
-    mysql.end();
   }
 };
 
 export const loginSql = async (data: Login): Promise<Login> => {
+  console.log('DATA:', data);
   return await executePostsQuery<Login>(
     `SELECT id, name FROM users WHERE email = ? AND password = ?`,
     [data.email, data.password],

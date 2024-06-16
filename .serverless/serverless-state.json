@@ -7,9 +7,9 @@
     "provider": {
       "name": "aws",
       "custom": {
-        "accountId": 148025418053
+        "accountId": 767398030559
       },
-      "runtime": "nodejs16.x",
+      "runtime": "nodejs18.x",
       "timeout": 30,
       "iamRoleStatements": [
         {
@@ -26,25 +26,25 @@
       ],
       "stage": "production",
       "region": "us-east-1",
-      "role": "arn:aws:iam::148025418053:role/dstefani-territory-status-role",
-      "vpc": {
-        "securityGroupIds": [
-          "sg-e957d2d3"
-        ],
-        "subnetIds": [
-          "subnet-2a4e3f67",
-          "subnet-c367cbe2"
-        ]
-      },
+      "role": "arn:aws:iam::767398030559:role/lambdaDevRole",
       "versionFunctions": true,
       "environment": {
         "REGION": "us-east-1",
         "NODE_ENV": "production",
-        "ROLE": "arn:aws:iam::148025418053:role/dstefani-lamda-rds-role",
+        "ROLE": "arn:aws:iam::767398030559:role/lambdaDevRole",
         "JWT_KEY": "Vh2ik5+CJRNSlsr8ZlktKmyMRfUiDQnQr00ZG2NjG0o=",
         "AUTH_USER": "dstefani",
         "AUTH_PASS": "z,Hqik$!kHjNwa&M",
-        "SERVERLESS_EXPRESS_PLATFORM": "aws"
+        "SERVERLESS_EXPRESS_PLATFORM": "aws",
+        "DB_HOST": "donstefani.com",
+        "DB_PORT": "3306",
+        "DB_USERNAME": "dstefani_admin",
+        "DB_PASSWORD": "z,Hqik$!kHjNwa&M",
+        "DB_DATABASE": "dstefani_call_book",
+        "DB_SSH_HOST": "donstefani.com",
+        "DB_SSH_USER": "dstefani",
+        "DB_SSH_PASSPHRASE": "",
+        "DB_SSH_KEY": "config/id_rsa"
       },
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
@@ -132,10 +132,10 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/cb-api/production/1715451575157-2024-05-11T18:19:35.157Z/cb-api.zip"
+                "S3Key": "serverless/cb-api/production/1718214069380-2024-06-12T17:41:09.380Z/cb-api.zip"
               },
               "Handler": "dist/index.handler",
-              "Runtime": "nodejs16.x",
+              "Runtime": "nodejs18.x",
               "FunctionName": "cb-api-production-app",
               "MemorySize": 1024,
               "Timeout": 30,
@@ -143,35 +143,36 @@
                 "Variables": {
                   "REGION": "us-east-1",
                   "NODE_ENV": "production",
-                  "ROLE": "arn:aws:iam::148025418053:role/dstefani-lamda-rds-role",
+                  "ROLE": "arn:aws:iam::767398030559:role/lambdaDevRole",
                   "JWT_KEY": "Vh2ik5+CJRNSlsr8ZlktKmyMRfUiDQnQr00ZG2NjG0o=",
                   "AUTH_USER": "dstefani",
                   "AUTH_PASS": "z,Hqik$!kHjNwa&M",
-                  "SERVERLESS_EXPRESS_PLATFORM": "aws"
+                  "SERVERLESS_EXPRESS_PLATFORM": "aws",
+                  "DB_HOST": "donstefani.com",
+                  "DB_PORT": "3306",
+                  "DB_USERNAME": "dstefani_admin",
+                  "DB_PASSWORD": "z,Hqik$!kHjNwa&M",
+                  "DB_DATABASE": "dstefani_call_book",
+                  "DB_SSH_HOST": "donstefani.com",
+                  "DB_SSH_USER": "dstefani",
+                  "DB_SSH_PASSPHRASE": "",
+                  "DB_SSH_KEY": "config/id_rsa"
                 }
               },
-              "Role": "arn:aws:iam::148025418053:role/dstefani-territory-status-role",
-              "VpcConfig": {
-                "SecurityGroupIds": {
-                  "$ref": "$[\"service\"][\"provider\"][\"vpc\"][\"securityGroupIds\"]"
-                },
-                "SubnetIds": {
-                  "$ref": "$[\"service\"][\"provider\"][\"vpc\"][\"subnetIds\"]"
-                }
-              }
+              "Role": "arn:aws:iam::767398030559:role/lambdaDevRole"
             },
             "DependsOn": [
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersiondN57Bg8FaW809bUUPMr9DDBqSdDXBi4SrJU7ScHUA": {
+          "AppLambdaVersionfUVnPtoLwuhNRfTw8pGhKjo0vgDkVbAdXe0UxpzRThc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "vwMUMRv5CopzVZ7vLt/JlFrkzvK1DaqO5vLyAAKaafk="
+              "CodeSha256": "HguZq8f/QHe6lmpSN+hlycfXuOv0h0xDx5Njh1knjbM="
             }
           },
           "ApiGatewayRestApi": {
@@ -1232,7 +1233,7 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1715451565069": {
+          "ApiGatewayDeployment1718214059647": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -1313,7 +1314,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersiondN57Bg8FaW809bUUPMr9DDBqSdDXBi4SrJU7ScHUA"
+              "Ref": "AppLambdaVersionfUVnPtoLwuhNRfTw8pGhKjo0vgDkVbAdXe0UxpzRThc"
             },
             "Export": {
               "Name": "sls-cb-api-production-AppLambdaFunctionQualifiedArn"
@@ -1428,7 +1429,8 @@
             }
           }
         }
-      }
+      },
+      "vpc": {}
     },
     "plugins": [
       "serverless-dotenv-plugin",
@@ -1709,9 +1711,9 @@
         "package": {},
         "memory": 1024,
         "timeout": 30,
-        "runtime": "nodejs16.x",
+        "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersiondN57Bg8FaW809bUUPMr9DDBqSdDXBi4SrJU7ScHUA"
+        "versionLogicalId": "AppLambdaVersionfUVnPtoLwuhNRfTw8pGhKjo0vgDkVbAdXe0UxpzRThc"
       }
     },
     "configValidationMode": "off",
@@ -1735,7 +1737,7 @@
     "artifact": "/Users/donstefani/Projects/call-book/cb_api/.serverless/cb-api.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/cb-api/production/1715451575157-2024-05-11T18:19:35.157Z",
+    "artifactDirectoryName": "serverless/cb-api/production/1718214069380-2024-06-12T17:41:09.380Z",
     "artifact": "cb-api.zip"
   }
 }

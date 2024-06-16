@@ -1,20 +1,21 @@
-import mysql from './index';
-import { Result, Person, Visit, Active } from '../utils/types';
+import SSHDBConnection from './index';
+import { Person, Visit, Active } from '../utils/types';
 
-const executePutQuery = async <T>(
+const executePutQuery = async (
   sqlStmt: string,
   values: any[],
   errorMsg: string,
 ): Promise<number> => {
-  const res = await mysql
-    .query({ sql: sqlStmt, timeout: 500000, values })
-    .catch((error) => {
-      mysql.end();
-      console.error(errorMsg, error);
-      return error;
-    });
-  const result: Result = res as Result;
-  return result.affectedRows;
+  const connection = await SSHDBConnection;
+  try {
+    const results = connection.promise().query(sqlStmt, values);
+    const result = (await results) as any;
+
+    return result[0].affectedRows;
+  } catch (error) {
+    console.error(errorMsg, error);
+    throw error;
+  }
 };
 
 export const updatePersonSql = (data: Person): Promise<number> =>

@@ -72,7 +72,11 @@ const getVisitsSrv = (person_id) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.getVisitsSrv = getVisitsSrv;
 const putPersonSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield modelsPuts.updatePersonSql(data);
+    console.log('DATA:', data.data);
+    const dataSend = data.data;
+    const affected = yield modelsPuts.updatePersonSql(dataSend);
+    console.log('AFFECTED:', affected);
+    return affected;
 });
 exports.putPersonSrv = putPersonSrv;
 const putActivePersonSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {

@@ -15,18 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.listPersonVisits = exports.getPerson = exports.listActivePersons = void 0;
 const index_1 = __importDefault(require("./index"));
 const executeGetsQuery = (sqlStmt, values) => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield index_1.default
-        .query({
-        sql: sqlStmt,
-        timeout: 5000,
-        values: values,
-    })
-        .catch((error) => {
+    const connection = yield index_1.default;
+    try {
+        const res = connection.promise().query(sqlStmt, values);
+        const result = (yield res);
+        console.log('Result:', result[0]);
+        return result[0];
+    }
+    catch (error) {
         console.log(error);
-        return error;
-    });
-    yield index_1.default.end();
-    return res;
+        throw error;
+    }
 });
 const listActivePersons = () => __awaiter(void 0, void 0, void 0, function* () {
     return executeGetsQuery(`SELECT *,
