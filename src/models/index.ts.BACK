@@ -1,0 +1,60 @@
+import mysql from 'mysql2';
+import { Client } from 'ssh2';
+import fs from 'fs';
+import 'dotenv/config';
+
+console.log('SSH', process.env.DB_SSH_KEY as string);
+const dbServer = {
+  host: process.env.DB_HOST as string,
+  port: parseInt(process.env.DB_PORT as string, 10),
+  user: process.env.DB_USERNAME as string,
+  password: process.env.DB_PASSWORD as string,
+  database: process.env.DB_DATABASE as string,
+};
+
+const tunnelConfig = {
+  host: process.env.DB_SSH_HOST as string,
+  port: 7822,
+  username: process.env.DB_SSH_USER as string,
+  privateKey: fs.readFileSync('config/id_rsa' as string),
+};
+
+console.log('Tunnel', tunnelConfig);
+
+const forwardConfig = {
+  srcHost: '127.0.0.1',
+  srcPort: 3306,
+  dstHost: dbServer.host,
+  dstPort: dbServer.port,
+};
+
+const sshClient = new Client();
+const SSHConnection = new Promise<mysql.Connection>((resolve, reject) => {
+  sshClient
+    .on('ready', () => {
+      sshClient.forwardOut(
+        forwardConfig.srcHost,
+        forwardConfig.srcPort,
+        forwardConfig.dstHost,
+        forwardConfig.dstPort,
+        (err, stream) => {
+          if (err) reject(err);
+          const updatedDbServer = {
+            ...dbServer,
+            stream,
+          };
+          const connection = mysql.createConnection(updatedDbServer);
+          connection.connect((error) => {
+            if (error) {
+              console.error('Error connecting to database:', error);
+              reject(error);
+            }
+            resolve(connection);
+          });
+        },
+      );
+    })
+    .connect(tunnelConfig);
+});
+
+export { SSHConnection, sshClient };
