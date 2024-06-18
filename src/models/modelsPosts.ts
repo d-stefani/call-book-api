@@ -33,11 +33,13 @@ export const loginSql = async (data: Login): Promise<Login> => {
 };
 
 export const insertPersonsSql = async (data: Person): Promise<number> => {
+  console.log('DATA:', data);
   const result = await executePostsQuery<Result>(
     'INSERT INTO persons SET ?',
-    data,
+    data.data,
     'Error inserting person:',
   );
+  console.log('RESULT: ', result.insertId);
   return result.insertId;
 };
 

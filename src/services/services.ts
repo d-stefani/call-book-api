@@ -18,9 +18,9 @@ export const postLoginSrv = async (data: Login): Promise<Login> => {
   return await modelsPosts.loginSql(data);
 };
 
-export const postPersonSrv = async (data: Person): Promise<Person> => {
-  await modelsPosts.insertPersonsSql(data);
-  return data;
+export const postPersonSrv = async (data: Person): Promise<number> => {
+  const Id: number = await modelsPosts.insertPersonsSql(data);
+  return Id;
 };
 
 export const postSearchSrv = async (

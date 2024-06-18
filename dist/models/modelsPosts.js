@@ -37,7 +37,9 @@ const loginSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.loginSql = loginSql;
 const insertPersonsSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield executePostsQuery('INSERT INTO persons SET ?', data, 'Error inserting person:');
+    console.log('DATA:', data);
+    const result = yield executePostsQuery('INSERT INTO persons SET ?', data.data, 'Error inserting person:');
+    console.log('RESULT: ', result.insertId);
     return result.insertId;
 });
 exports.insertPersonsSql = insertPersonsSql;

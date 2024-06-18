@@ -46,8 +46,8 @@ const postLoginSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.postLoginSrv = postLoginSrv;
 const postPersonSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    yield modelsPosts.insertPersonsSql(data);
-    return data;
+    const Id = yield modelsPosts.insertPersonsSql(data);
+    return Id;
 });
 exports.postPersonSrv = postPersonSrv;
 const postSearchSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {

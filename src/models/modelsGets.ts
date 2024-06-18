@@ -20,16 +20,14 @@ const executeGetsQuery = async <T>(
 };
 
 export const listActivePersons = async (): Promise<Person> =>
-  executeGetsQuery<Person>(`SELECT *,
-  DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
+  executeGetsQuery<Person>(`SELECT * 
   FROM persons 
   WHERE persons.active = 1
-  ORDER BY date ASC`);
+  ORDER BY dateTime ASC`);
 
 export const getPerson = async (person_id: number): Promise<Person> =>
   executeGetsQuery<Person>(
-    `SELECT *,
-    DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
+    `SELECT *
     FROM persons 
     WHERE persons.id = ?`,
     [person_id],

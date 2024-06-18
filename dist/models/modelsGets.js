@@ -28,16 +28,14 @@ const executeGetsQuery = (sqlStmt, values) => __awaiter(void 0, void 0, void 0, 
     }
 });
 const listActivePersons = () => __awaiter(void 0, void 0, void 0, function* () {
-    return executeGetsQuery(`SELECT *,
-  DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
+    return executeGetsQuery(`SELECT * 
   FROM persons 
   WHERE persons.active = 1
-  ORDER BY date ASC`);
+  ORDER BY dateTime ASC`);
 });
 exports.listActivePersons = listActivePersons;
 const getPerson = (person_id) => __awaiter(void 0, void 0, void 0, function* () {
-    return executeGetsQuery(`SELECT *,
-    DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
+    return executeGetsQuery(`SELECT *
     FROM persons 
     WHERE persons.id = ?`, [person_id]);
 });
