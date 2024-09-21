@@ -53,6 +53,16 @@ export const getPerson = (req: Request, res: Response): void =>
     'person_id',
   );
 
+export const getVisit = (req: Request, res: Response): void =>
+  handleRequest(
+    services.getVisitSrv,
+    'Get Personvisit success',
+    'Get Person visit failed',
+    req,
+    res,
+    'visit_id',
+  );
+
 export const getVisits = (req: Request, res: Response): void =>
   handleRequest(
     services.getVisitsSrv,

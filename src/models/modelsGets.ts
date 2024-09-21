@@ -35,8 +35,14 @@ export const getPerson = async (person_id: number): Promise<Person> =>
 
 export const listPersonVisits = async (person_id: number): Promise<Visit> =>
   executeGetsQuery<Visit>(
-    `SELECT *,
-    DATE_FORMAT(visits.date, '%Y-%m-%d') AS visit_date 
-    FROM visits WHERE person_id = ? ORDER BY date ASC`,
+    `SELECT *
+    FROM visits WHERE person_id = ? ORDER BY dateTime DESC`,
     [person_id],
+  );
+
+export const getVisitSql = async (visit_id: number): Promise<Visit> =>
+  executeGetsQuery<Visit>(
+    `SELECT *
+      FROM visits WHERE id = ? ORDER BY dateTime ASC`,
+    [visit_id],
   );

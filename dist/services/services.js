@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putVisitSrv = exports.putActivePersonSrv = exports.putPersonSrv = exports.getVisitsSrv = exports.getPersonSrv = exports.getPersonsSrv = exports.postVisitSrv = exports.postSearchSrv = exports.postPersonSrv = exports.postLoginSrv = void 0;
+exports.putVisitSrv = exports.putActivePersonSrv = exports.putPersonSrv = exports.getVisitSrv = exports.getVisitsSrv = exports.getPersonSrv = exports.getPersonsSrv = exports.postVisitSrv = exports.postSearchSrv = exports.postPersonSrv = exports.postLoginSrv = void 0;
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 const modelsPosts = __importStar(require("../models/modelsPosts"));
 const modelsGets = __importStar(require("../models/modelsGets"));
@@ -64,6 +64,7 @@ const getPersonsSrv = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getPersonsSrv = getPersonsSrv;
 const getPersonSrv = (person_id) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('PERSON_ID:', person_id);
     return yield modelsGets.getPerson(person_id);
 });
 exports.getPersonSrv = getPersonSrv;
@@ -71,6 +72,10 @@ const getVisitsSrv = (person_id) => __awaiter(void 0, void 0, void 0, function* 
     return yield modelsGets.listPersonVisits(person_id);
 });
 exports.getVisitsSrv = getVisitsSrv;
+const getVisitSrv = (visit_id) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield modelsGets.getVisitSql(visit_id);
+});
+exports.getVisitSrv = getVisitSrv;
 const putPersonSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('DATA:', data.data);
     const dataSend = data.data;
@@ -84,7 +89,9 @@ const putActivePersonSrv = (data) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.putActivePersonSrv = putActivePersonSrv;
 const putVisitSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield modelsPuts.updateVisitSql(data);
+    console.log('DATA:', data.data);
+    const dataSend = data.data;
+    return yield modelsPuts.updateVisitSql(dataSend);
 });
 exports.putVisitSrv = putVisitSrv;
 //# sourceMappingURL=services.js.map

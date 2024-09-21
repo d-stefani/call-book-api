@@ -44,9 +44,10 @@ export const insertPersonsSql = async (data: Person): Promise<number> => {
 };
 
 export const insertVisitSql = async (data: Visit): Promise<number> => {
+  console.log('DATA:', data);
   const result = await executePostsQuery<Result>(
     'INSERT INTO visits SET ?',
-    data,
+    data.data,
     'Error inserting visit:',
   );
   return result.insertId;
@@ -56,7 +57,7 @@ export const searchPersonSql = async (
   data: PersonSearch,
 ): Promise<number | Person> => {
   const searchResult = await executePostsQuery<Person>(
-    `SELECT *, DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date FROM persons 
+    `SELECT * FROM persons
     WHERE name LIKE CONCAT('%', ?, '%') 
     OR address LIKE CONCAT('%', ?, '%')
     OR territory LIKE CONCAT('%', ?, '%')`,

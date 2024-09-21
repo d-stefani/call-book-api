@@ -88,8 +88,7 @@ enum VisitType {
 export interface Visit extends Data {
   id?: number;
   person_id: number;
-  date: string;
-  time: string;
+  dateTime: string;
   initial_contact: number;
   placement: string | null;
   visit_type: VisitType;
