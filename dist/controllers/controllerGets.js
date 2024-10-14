@@ -52,7 +52,7 @@ const handleRequest = (serviceFn, successMessage, failMessage, req, res, reqPara
         });
     });
 };
-const getPersons = (req, res) => handleRequest(services.getPersonsSrv, 'Get Persons success', 'Get Persons failed', req, res);
+const getPersons = (req, res) => handleRequest(services.getPersonsSrv, 'Get Persons success', 'Get Persons failed', req, res, 'id');
 exports.getPersons = getPersons;
 const getPerson = (req, res) => handleRequest(services.getPersonSrv, 'Get Person success', 'Get Person failed', req, res, 'person_id');
 exports.getPerson = getPerson;

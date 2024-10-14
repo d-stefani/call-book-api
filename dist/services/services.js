@@ -59,8 +59,9 @@ const postVisitSrv = (data) => __awaiter(void 0, void 0, void 0, function* () {
     return data;
 });
 exports.postVisitSrv = postVisitSrv;
-const getPersonsSrv = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield modelsGets.listActivePersons();
+const getPersonsSrv = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('USER_ID:', id);
+    return yield modelsGets.listActivePersons(id);
 });
 exports.getPersonsSrv = getPersonsSrv;
 const getPersonSrv = (person_id) => __awaiter(void 0, void 0, void 0, function* () {

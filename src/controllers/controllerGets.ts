@@ -41,6 +41,7 @@ export const getPersons = (req: Request, res: Response): void =>
     'Get Persons failed',
     req,
     res,
+    'id',
   );
 
 export const getPerson = (req: Request, res: Response): void =>

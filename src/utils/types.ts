@@ -47,6 +47,7 @@ enum Environment {
 
 export interface Person extends Data {
   id?: number;
+  user_id: number;
   name: string | null;
   address: string;
   phone: string | null;

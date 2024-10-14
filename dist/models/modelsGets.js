@@ -27,11 +27,12 @@ const executeGetsQuery = (sqlStmt, values) => __awaiter(void 0, void 0, void 0, 
         throw error;
     }
 });
-const listActivePersons = () => __awaiter(void 0, void 0, void 0, function* () {
+const listActivePersons = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return executeGetsQuery(`SELECT * 
-  FROM persons 
-  WHERE persons.active = 1
-  ORDER BY dateTime ASC`);
+    FROM persons 
+    WHERE persons.user_id = ?
+    AND persons.active = 1
+    ORDER BY dateTime ASC`, [id]);
 });
 exports.listActivePersons = listActivePersons;
 const getPerson = (person_id) => __awaiter(void 0, void 0, void 0, function* () {

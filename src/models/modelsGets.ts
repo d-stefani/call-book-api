@@ -19,11 +19,15 @@ const executeGetsQuery = async <T>(
   }
 };
 
-export const listActivePersons = async (): Promise<Person> =>
-  executeGetsQuery<Person>(`SELECT * 
-  FROM persons 
-  WHERE persons.active = 1
-  ORDER BY dateTime ASC`);
+export const listActivePersons = async (id: number): Promise<Person> =>
+  executeGetsQuery<Person>(
+    `SELECT * 
+    FROM persons 
+    WHERE persons.user_id = ?
+    AND persons.active = 1
+    ORDER BY dateTime ASC`,
+  [id],
+);
 
 export const getPerson = async (person_id: number): Promise<Person> =>
   executeGetsQuery<Person>(

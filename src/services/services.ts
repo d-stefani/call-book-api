@@ -34,8 +34,9 @@ export const postVisitSrv = async (data: Visit): Promise<Visit> => {
   return data;
 };
 
-export const getPersonsSrv = async (): Promise<Person> => {
-  return await modelsGets.listActivePersons();
+export const getPersonsSrv = async (id: number): Promise<Person> => {
+  console.log('USER_ID:', id);
+  return await modelsGets.listActivePersons(id);
 };
 
 export const getPersonSrv = async (person_id: number): Promise<Person> => {
