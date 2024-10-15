@@ -56,8 +56,7 @@ exports.updateActivePersonSql = updateActivePersonSql;
 const updateVisitSql = (data) => executePutQuery(`UPDATE visits
     SET
       person_id = ?,
-      date = ?,
-      time = ?,
+      dateTime = ?,
       initial_contact = ?,
       placement = ?,
       visit_type = ?,
@@ -65,8 +64,7 @@ const updateVisitSql = (data) => executePutQuery(`UPDATE visits
       created = ?
     WHERE id = ?`, [
     data.person_id,
-    data.date,
-    data.time,
+    data.dateTime,
     data.initial_contact,
     data.placement,
     data.visit_type,

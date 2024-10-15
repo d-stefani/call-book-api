@@ -45,7 +45,7 @@ functions:
           method: POST
           cors: true
       - http:
-          path: /api/persons
+          path: /api/persons/{id}
           method: GET
           cors: true
       - http:

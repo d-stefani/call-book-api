@@ -132,7 +132,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/cb-api/production/1718214069380-2024-06-12T17:41:09.380Z/cb-api.zip"
+                "S3Key": "serverless/cb-api/production/1728928645998-2024-10-14T17:57:25.998Z/cb-api.zip"
               },
               "Handler": "dist/index.handler",
               "Runtime": "nodejs18.x",
@@ -165,14 +165,14 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersionfUVnPtoLwuhNRfTw8pGhKjo0vgDkVbAdXe0UxpzRThc": {
+          "AppLambdaVersionp2eYdfl70whVwDWlfcSyrxI8EKshu8GM1iDB94Ld2S4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "HguZq8f/QHe6lmpSN+hlycfXuOv0h0xDx5Njh1knjbM="
+              "CodeSha256": "9Ygo+DUW5/uM7KrMSWXOx/LE6xY4H35y/does2QQIzc="
             }
           },
           "ApiGatewayRestApi": {
@@ -281,6 +281,18 @@
                 "Ref": "ApiGatewayResourceApi"
               },
               "PathPart": "persons",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceApiPersonsIdVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceApiPersons"
+              },
+              "PathPart": "{id}",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -547,7 +559,7 @@
               }
             }
           },
-          "ApiGatewayMethodApiPersonsOptions": {
+          "ApiGatewayMethodApiPersonsIdVarOptions": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "AuthorizationType": "NONE",
@@ -585,7 +597,7 @@
                 ]
               },
               "ResourceId": {
-                "Ref": "ApiGatewayResourceApiPersons"
+                "Ref": "ApiGatewayResourceApiPersonsIdVar"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -957,13 +969,13 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodApiPersonsGet": {
+          "ApiGatewayMethodApiPersonsIdVarGet": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "GET",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceApiPersons"
+                "Ref": "ApiGatewayResourceApiPersonsIdVar"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -1233,7 +1245,7 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1718214059647": {
+          "ApiGatewayDeployment1728928634218": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -1247,7 +1259,7 @@
               "ApiGatewayMethodApiSearchOptions",
               "ApiGatewayMethodApiPersonOptions",
               "ApiGatewayMethodApiVisitOptions",
-              "ApiGatewayMethodApiPersonsOptions",
+              "ApiGatewayMethodApiPersonsIdVarOptions",
               "ApiGatewayMethodApiPersonPersonidVarOptions",
               "ApiGatewayMethodApiVisitsPersonidVarOptions",
               "ApiGatewayMethodApiPactiveOptions",
@@ -1256,7 +1268,7 @@
               "ApiGatewayMethodApiSearchPost",
               "ApiGatewayMethodApiPersonPost",
               "ApiGatewayMethodApiVisitPost",
-              "ApiGatewayMethodApiPersonsGet",
+              "ApiGatewayMethodApiPersonsIdVarGet",
               "ApiGatewayMethodApiPersonPersonidVarGet",
               "ApiGatewayMethodApiVisitsPersonidVarGet",
               "ApiGatewayMethodApiPersonPut",
@@ -1314,7 +1326,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionfUVnPtoLwuhNRfTw8pGhKjo0vgDkVbAdXe0UxpzRThc"
+              "Ref": "AppLambdaVersionp2eYdfl70whVwDWlfcSyrxI8EKshu8GM1iDB94Ld2S4"
             },
             "Export": {
               "Name": "sls-cb-api-production-AppLambdaFunctionQualifiedArn"
@@ -1564,7 +1576,7 @@
           },
           {
             "http": {
-              "path": "api/persons",
+              "path": "api/persons/{id}",
               "method": "get",
               "cors": {
                 "origin": "*",
@@ -1713,7 +1725,7 @@
         "timeout": 30,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersionfUVnPtoLwuhNRfTw8pGhKjo0vgDkVbAdXe0UxpzRThc"
+        "versionLogicalId": "AppLambdaVersionp2eYdfl70whVwDWlfcSyrxI8EKshu8GM1iDB94Ld2S4"
       }
     },
     "configValidationMode": "off",
@@ -1737,7 +1749,7 @@
     "artifact": "/Users/donstefani/Projects/call-book/cb_api/.serverless/cb-api.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/cb-api/production/1718214069380-2024-06-12T17:41:09.380Z",
+    "artifactDirectoryName": "serverless/cb-api/production/1728928645998-2024-10-14T17:57:25.998Z",
     "artifact": "cb-api.zip"
   }
 }

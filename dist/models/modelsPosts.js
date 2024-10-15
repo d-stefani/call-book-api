@@ -37,17 +37,20 @@ const loginSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.loginSql = loginSql;
 const insertPersonsSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield executePostsQuery('INSERT INTO persons SET ?', data, 'Error inserting person:');
+    console.log('DATA:', data);
+    const result = yield executePostsQuery('INSERT INTO persons SET ?', data.data, 'Error inserting person:');
+    console.log('RESULT: ', result.insertId);
     return result.insertId;
 });
 exports.insertPersonsSql = insertPersonsSql;
 const insertVisitSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield executePostsQuery('INSERT INTO visits SET ?', data, 'Error inserting visit:');
+    console.log('DATA:', data);
+    const result = yield executePostsQuery('INSERT INTO visits SET ?', data.data, 'Error inserting visit:');
     return result.insertId;
 });
 exports.insertVisitSql = insertVisitSql;
 const searchPersonSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const searchResult = yield executePostsQuery(`SELECT *, DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date FROM persons 
+    const searchResult = yield executePostsQuery(`SELECT * FROM persons
     WHERE name LIKE CONCAT('%', ?, '%') 
     OR address LIKE CONCAT('%', ?, '%')
     OR territory LIKE CONCAT('%', ?, '%')`, [data.search, data.search, data.search], 'Error searching person:');

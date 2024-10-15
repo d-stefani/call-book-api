@@ -19,17 +19,19 @@ const executeGetsQuery = async <T>(
   }
 };
 
-export const listActivePersons = async (): Promise<Person> =>
-  executeGetsQuery<Person>(`SELECT *,
-  DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
-  FROM persons 
-  WHERE persons.active = 1
-  ORDER BY date ASC`);
+export const listActivePersons = async (id: number): Promise<Person> =>
+  executeGetsQuery<Person>(
+    `SELECT * 
+    FROM persons 
+    WHERE persons.user_id = ?
+    AND persons.active = 1
+    ORDER BY dateTime ASC`,
+  [id],
+);
 
 export const getPerson = async (person_id: number): Promise<Person> =>
   executeGetsQuery<Person>(
-    `SELECT *,
-    DATE_FORMAT(persons.date, '%Y-%m-%d') AS call_date 
+    `SELECT *
     FROM persons 
     WHERE persons.id = ?`,
     [person_id],
@@ -37,8 +39,14 @@ export const getPerson = async (person_id: number): Promise<Person> =>
 
 export const listPersonVisits = async (person_id: number): Promise<Visit> =>
   executeGetsQuery<Visit>(
-    `SELECT *,
-    DATE_FORMAT(visits.date, '%Y-%m-%d') AS visit_date 
-    FROM visits WHERE person_id = ? ORDER BY date ASC`,
+    `SELECT *
+    FROM visits WHERE person_id = ? ORDER BY dateTime DESC`,
     [person_id],
+  );
+
+export const getVisitSql = async (visit_id: number): Promise<Visit> =>
+  executeGetsQuery<Visit>(
+    `SELECT *
+      FROM visits WHERE id = ? ORDER BY dateTime ASC`,
+    [visit_id],
   );

@@ -8,9 +8,10 @@ const routes = (() => {
   router.post('/api/person', controllerPosts.postPersons);
   router.post('/api/visit', controllerPosts.postVisits);
   router.post('/api/search', controllerPosts.postSearch);
-  router.get('/api/persons', controllerGets.getPersons);
+  router.get('/api/persons/:id', controllerGets.getPersons);
   router.get('/api/person/:person_id', controllerGets.getPerson);
   router.get('/api/visits/:person_id', controllerGets.getVisits);
+  router.get('/api/visit/:visit_id', controllerGets.getVisit);
   router.put('/api/person/', controllerPuts.person);
   router.put('/api/pactive/', controllerPuts.personActive);
   router.put('/api/visit/', controllerPuts.putVisit);

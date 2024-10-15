@@ -18,9 +18,9 @@ export const postLoginSrv = async (data: Login): Promise<Login> => {
   return await modelsPosts.loginSql(data);
 };
 
-export const postPersonSrv = async (data: Person): Promise<Person> => {
-  await modelsPosts.insertPersonsSql(data);
-  return data;
+export const postPersonSrv = async (data: Person): Promise<number> => {
+  const Id: number = await modelsPosts.insertPersonsSql(data);
+  return Id;
 };
 
 export const postSearchSrv = async (
@@ -34,16 +34,22 @@ export const postVisitSrv = async (data: Visit): Promise<Visit> => {
   return data;
 };
 
-export const getPersonsSrv = async (): Promise<Person> => {
-  return await modelsGets.listActivePersons();
+export const getPersonsSrv = async (id: number): Promise<Person> => {
+  console.log('USER_ID:', id);
+  return await modelsGets.listActivePersons(id);
 };
 
 export const getPersonSrv = async (person_id: number): Promise<Person> => {
+  console.log('PERSON_ID:', person_id);
   return await modelsGets.getPerson(person_id);
 };
 
 export const getVisitsSrv = async (person_id: number): Promise<Visit> => {
   return await modelsGets.listPersonVisits(person_id);
+};
+
+export const getVisitSrv = async (visit_id: number): Promise<Visit> => {
+  return await modelsGets.getVisitSql(visit_id);
 };
 
 export const putPersonSrv = async (data: Person): Promise<number> => {
@@ -59,5 +65,7 @@ export const putActivePersonSrv = async (data: Active): Promise<number> => {
 };
 
 export const putVisitSrv = async (data: Visit): Promise<number> => {
-  return await modelsPuts.updateVisitSql(data);
+  console.log('DATA:', data.data);
+  const dataSend: any = data.data;
+  return await modelsPuts.updateVisitSql(dataSend);
 };
