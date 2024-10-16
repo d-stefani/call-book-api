@@ -61,7 +61,6 @@ export const updateVisitSql = (data: Visit): Promise<number> =>
     SET
       person_id = ?,
       dateTime = ?,
-      initial_contact = ?,
       placement = ?,
       visit_type = ?,
       visit_notes = ?,
@@ -70,7 +69,6 @@ export const updateVisitSql = (data: Visit): Promise<number> =>
     [
       data.person_id,
       data.dateTime,
-      data.initial_contact,
       data.placement,
       data.visit_type,
       data.visit_notes,

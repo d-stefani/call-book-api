@@ -57,7 +57,6 @@ const updateVisitSql = (data) => executePutQuery(`UPDATE visits
     SET
       person_id = ?,
       dateTime = ?,
-      initial_contact = ?,
       placement = ?,
       visit_type = ?,
       visit_notes = ?,
@@ -65,7 +64,6 @@ const updateVisitSql = (data) => executePutQuery(`UPDATE visits
     WHERE id = ?`, [
     data.person_id,
     data.dateTime,
-    data.initial_contact,
     data.placement,
     data.visit_type,
     data.visit_notes,
