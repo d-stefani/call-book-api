@@ -132,7 +132,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/cb-api/production/1732309936065-2024-11-22T21:12:16.065Z/cb-api.zip"
+                "S3Key": "serverless/cb-api/production/1742579156540-2025-03-21T17:45:56.540Z/cb-api.zip"
               },
               "Handler": "dist/index.handler",
               "Runtime": "nodejs18.x",
@@ -165,14 +165,14 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersion4iELzbf68HkNvEuslMQmEzMkZEHmzvmziYJiMKyp5s": {
+          "AppLambdaVersionhz4dOpmIEq4p2GstszAb92uUpWsJBCuOH5r2MuttAFc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "YY2NvsP2IIer4EDGaDGhVQE7bGXf0pdBh3ml457qP9A="
+              "CodeSha256": "5fcWlCg8XP1d/NAVv55GJNWAvUHkS5ZidLejYE96pVA="
             }
           },
           "ApiGatewayRestApi": {
@@ -1348,7 +1348,7 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1732309924411": {
+          "ApiGatewayDeployment1742579144645": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -1431,7 +1431,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersion4iELzbf68HkNvEuslMQmEzMkZEHmzvmziYJiMKyp5s"
+              "Ref": "AppLambdaVersionhz4dOpmIEq4p2GstszAb92uUpWsJBCuOH5r2MuttAFc"
             },
             "Export": {
               "Name": "sls-cb-api-production-AppLambdaFunctionQualifiedArn"
@@ -1857,7 +1857,7 @@
         "timeout": 30,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersion4iELzbf68HkNvEuslMQmEzMkZEHmzvmziYJiMKyp5s"
+        "versionLogicalId": "AppLambdaVersionhz4dOpmIEq4p2GstszAb92uUpWsJBCuOH5r2MuttAFc"
       }
     },
     "configValidationMode": "off",
@@ -1881,7 +1881,7 @@
     "artifact": "/Users/donstefani/Projects/call-book/cb_api/.serverless/cb-api.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/cb-api/production/1732309936065-2024-11-22T21:12:16.065Z",
+    "artifactDirectoryName": "serverless/cb-api/production/1742579156540-2025-03-21T17:45:56.540Z",
     "artifact": "cb-api.zip"
   }
 }

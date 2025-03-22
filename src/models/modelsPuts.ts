@@ -1,17 +1,16 @@
-import SSHDBConnection from './index';
+import getPool from './index';
 import { Person, Visit, Active } from '../utils/types';
+import { ResultSetHeader } from 'mysql2';
 
 const executePutQuery = async (
   sqlStmt: string,
   values: any[],
   errorMsg: string,
 ): Promise<number> => {
-  const connection = await SSHDBConnection;
+  const pool = await getPool();
   try {
-    const results = connection.promise().query(sqlStmt, values);
-    const result = (await results) as any;
-
-    return result[0].affectedRows;
+    const [result] = await pool.promise().query<ResultSetHeader>(sqlStmt, values);
+    return result.affectedRows;
   } catch (error) {
     console.error(errorMsg, error);
     throw error;

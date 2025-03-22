@@ -15,40 +15,43 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getVisitSql = exports.listPersonVisits = exports.getPerson = exports.listActivePersons = void 0;
 const index_1 = __importDefault(require("./index"));
 const executeGetsQuery = (sqlStmt, values) => __awaiter(void 0, void 0, void 0, function* () {
-    const connection = yield index_1.default;
+    const pool = yield (0, index_1.default)();
     try {
-        const res = connection.promise().query(sqlStmt, values);
-        const result = (yield res);
-        console.log('Result:', result[0]);
-        return result[0];
+        const [result] = yield pool.promise().query(sqlStmt, values);
+        return result;
     }
     catch (error) {
-        console.log(error);
+        console.error('Query execution error:', error);
         throw error;
     }
 });
-const listActivePersons = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return executeGetsQuery(`SELECT * 
+const listActivePersons = (id, page = 1, limit = 50) => __awaiter(void 0, void 0, void 0, function* () {
+    return executeGetsQuery(`SELECT id, name, address, phone, email, territory, environment, notes, active, dateTime 
     FROM persons 
     WHERE persons.user_id = ?
     AND persons.active = 1
-    ORDER BY dateTime ASC`, [id]);
+    ORDER BY dateTime ASC
+    LIMIT ? OFFSET ?`, [id, limit, (page - 1) * limit]);
 });
 exports.listActivePersons = listActivePersons;
 const getPerson = (person_id) => __awaiter(void 0, void 0, void 0, function* () {
-    return executeGetsQuery(`SELECT *
+    return executeGetsQuery(`SELECT id, name, address, phone, email, territory, environment, notes, active, dateTime
     FROM persons 
     WHERE persons.id = ?`, [person_id]);
 });
 exports.getPerson = getPerson;
 const listPersonVisits = (person_id) => __awaiter(void 0, void 0, void 0, function* () {
-    return executeGetsQuery(`SELECT *
-    FROM visits WHERE person_id = ? ORDER BY dateTime DESC`, [person_id]);
+    return executeGetsQuery(`SELECT id, person_id, dateTime, placement, visit_type, visit_notes, created
+    FROM visits 
+    WHERE person_id = ? 
+    ORDER BY dateTime DESC`, [person_id]);
 });
 exports.listPersonVisits = listPersonVisits;
 const getVisitSql = (visit_id) => __awaiter(void 0, void 0, void 0, function* () {
-    return executeGetsQuery(`SELECT *
-      FROM visits WHERE id = ? ORDER BY dateTime ASC`, [visit_id]);
+    return executeGetsQuery(`SELECT id, person_id, dateTime, placement, visit_type, visit_notes, created
+    FROM visits 
+    WHERE id = ? 
+    ORDER BY dateTime ASC`, [visit_id]);
 });
 exports.getVisitSql = getVisitSql;
 //# sourceMappingURL=modelsGets.js.map

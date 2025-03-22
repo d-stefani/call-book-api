@@ -15,16 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.searchPersonSql = exports.insertVisitSql = exports.insertPersonsSql = exports.loginSql = void 0;
 const index_1 = __importDefault(require("./index"));
 const executePostsQuery = (sqlStmt, values, errorMsg) => __awaiter(void 0, void 0, void 0, function* () {
-    const connection = yield index_1.default;
+    const pool = yield (0, index_1.default)();
     try {
-        const res = connection.promise().query({
+        const [result] = yield pool.promise().query({
             sql: sqlStmt,
             timeout: 5000,
             values: values,
         });
-        const result = (yield res);
-        console.log('Result:', result[0]);
-        return result[0];
+        if (!result || (Array.isArray(result) && result.length === 0)) {
+            throw new Error(errorMsg);
+        }
+        return result;
     }
     catch (error) {
         console.error(errorMsg, error);
@@ -32,32 +33,31 @@ const executePostsQuery = (sqlStmt, values, errorMsg) => __awaiter(void 0, void 
     }
 });
 const loginSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('DATA:', data);
-    return yield executePostsQuery(`SELECT id, name FROM users WHERE email = ? AND password = ?`, [data.email, data.password], 'LOGIN SQL ERROR');
+    const result = yield executePostsQuery(`SELECT id, name, email FROM users WHERE email = ? AND password = ?`, [data.email, data.password], 'LOGIN SQL ERROR');
+    return result[0];
 });
 exports.loginSql = loginSql;
 const insertPersonsSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('DATA:', data);
     const result = yield executePostsQuery('INSERT INTO persons SET ?', data.data, 'Error inserting person:');
-    console.log('RESULT: ', result.insertId);
-    return result.insertId;
+    return result[0].insertId;
 });
 exports.insertPersonsSql = insertPersonsSql;
 const insertVisitSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('DATA:', data);
     const result = yield executePostsQuery('INSERT INTO visits SET ?', data.data, 'Error inserting visit:');
-    return result.insertId;
+    return result[0].insertId;
 });
 exports.insertVisitSql = insertVisitSql;
 const searchPersonSql = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const searchResult = yield executePostsQuery(`SELECT * FROM persons
-    WHERE name LIKE CONCAT('%', ?, '%') 
-    OR address LIKE CONCAT('%', ?, '%')
-    OR territory LIKE CONCAT('%', ?, '%')`, [data.search, data.search, data.search], 'Error searching person:');
-    if (Object.keys(searchResult).length === 0) {
+    const searchResult = yield executePostsQuery(`SELECT DISTINCT id, name, address, phone, email, territory, environment, notes, active, dateTime
+    FROM persons
+    WHERE name LIKE ?
+    OR address LIKE ?
+    OR territory LIKE ?
+    LIMIT 50`, [`%${data.search}%`, `%${data.search}%`, `%${data.search}%`], 'Error searching person:');
+    if (!searchResult || searchResult.length === 0) {
         return 0;
     }
-    return searchResult;
+    return searchResult[0];
 });
 exports.searchPersonSql = searchPersonSql;
 //# sourceMappingURL=modelsPosts.js.map
