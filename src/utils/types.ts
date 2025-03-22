@@ -1,3 +1,5 @@
+import { RowDataPacket } from 'mysql2';
+
 export interface Data {
   data: string[] | number[];
   [Symbol.iterator](): IterableIterator<number | string>;
@@ -9,7 +11,7 @@ export interface UnauthorizedError extends Error {
   message: string;
 }
 
-export type Result = {
+export type Result = RowDataPacket & {
   insertId: number;
   length: number;
   affectedRows: number;
@@ -23,7 +25,7 @@ export interface DbConf {
   multipleStatements?: boolean;
 }
 
-export interface Login {
+export interface Login extends RowDataPacket {
   id?: number;
   password?: string;
   first_name?: string;
@@ -31,7 +33,7 @@ export interface Login {
   email: string;
 }
 
-export interface PersonVisitsLookup {
+export interface PersonVisitsLookup extends RowDataPacket {
   user_id: number;
   person_id: number;
   visit_id: number;
@@ -45,7 +47,7 @@ enum Environment {
   null,
 }
 
-export interface Person extends Data {
+export interface Person extends RowDataPacket, Data {
   id?: number;
   user_id: number;
   name: string | null;
@@ -65,12 +67,12 @@ export interface PersonSearch extends Person {
   search?: string;
 }
 
-export interface Active {
+export interface Active extends RowDataPacket {
   id: number;
   active: number;
 }
 
-export interface User {
+export interface User extends RowDataPacket {
   id?: number;
   name: string | null;
   email: string | null;
@@ -86,7 +88,7 @@ enum VisitType {
   'email',
 }
 
-export interface Visit extends Data {
+export interface Visit extends RowDataPacket, Data {
   id?: number;
   person_id: number;
   dateTime: string;

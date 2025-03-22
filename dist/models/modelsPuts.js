@@ -15,11 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateVisitSql = exports.updateActivePersonSql = exports.updatePersonSql = void 0;
 const index_1 = __importDefault(require("./index"));
 const executePutQuery = (sqlStmt, values, errorMsg) => __awaiter(void 0, void 0, void 0, function* () {
-    const connection = yield index_1.default;
+    const pool = yield (0, index_1.default)();
     try {
-        const results = connection.promise().query(sqlStmt, values);
-        const result = (yield results);
-        return result[0].affectedRows;
+        const [result] = yield pool.promise().query(sqlStmt, values);
+        return result.affectedRows;
     }
     catch (error) {
         console.error(errorMsg, error);
